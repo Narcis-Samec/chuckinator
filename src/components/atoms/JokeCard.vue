@@ -18,9 +18,7 @@ import { mapState } from "vuex";
 
 export default {
   computed: {
-    joke() {
-      return this.$store.state.joke;
-    },
+    ...mapState(["joke"]),
   },
 };
 </script>

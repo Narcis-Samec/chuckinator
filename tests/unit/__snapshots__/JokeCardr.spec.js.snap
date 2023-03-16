@@ -1,0 +1,8 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`JokeCard.vue matches snapshot 1`] = `
+<v-card class="ma-2 pa-2 text-h4" height="250px">
+  <v-chip variant="elevated" color="primary" class="mb-2">category1</v-chip>
+  <p>test joke</p>
+</v-card>
+`;

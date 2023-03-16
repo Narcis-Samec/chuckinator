@@ -12,8 +12,8 @@ export default createStore({
       vaule: null,
     },
     categories: [],
-    selectedCat: null
-
+    selectedCat: "",
+    query: ""
   },
   getters: {
     getJoke: (state) => state.joke,
@@ -28,23 +28,36 @@ export default createStore({
     SET_CATEGORIE(state, selectedCat) {
       state.selectedCat = selectedCat;
     },
+    SET_QUERY(state, query) {
+      state.query = query;
+    },
   },
   actions: {
     async fetchJoke({ commit }) {
-      let url = "https://api.chucknorris.io/jokes/random"
+      let url = "https://api.chucknorris.io/jokes"
 
-      if (this.state.selectedCat != null) {
-        url += `?category=${this.state.selectedCat}`
+      if (this.state.selectedCat != "" && this.state.query == "") {
+        url += `/random?category=${this.state.selectedCat}`
       }
 
-      if (this.state.selectedCat == "") {
+      if (this.state.selectedCat == "" && this.state.query == "") {
         url = "https://api.chucknorris.io/jokes/random"
+      }
+
+      if (this.state.query != "") {
+        url += `/search?query=${this.state.query}`
       }
       
       await axios
         .get(url)
         .then((res) => {
-          commit("SET_JOKE", res.data);
+          if(res.data.result == undefined) {
+            commit("SET_JOKE", res.data);
+          }
+          else {
+            const randomNumber = Math.floor(Math.random() * res.data.result.length)
+            commit("SET_JOKE", res.data.result[randomNumber]);
+          }
         })
         .catch((err) => console.log(err));
     },
@@ -58,6 +71,9 @@ export default createStore({
     },
     changeCat({commit}, selectedCat){
       commit("SET_CATEGORIE", selectedCat);
+    },
+    changeQuery({commit}, query){
+      commit("SET_QUERY", query);
     }
   },
   modules: {},

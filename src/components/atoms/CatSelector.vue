@@ -7,6 +7,7 @@
     class="mr-2"
     v-model="localCat"
     @update:modelValue="$store.dispatch('changeCat', localCat)"
+    data-testid="combobox"
   ></v-combobox>
 </template>
 
@@ -18,9 +19,7 @@ export default {
     localCat: null,
   }),
   computed: {
-    categories() {
-      return this.$store.state.categories;
-    },
+    ...mapState(["categories"]),
   },
   mounted() {
     this.$store.dispatch("fetchCategories");
