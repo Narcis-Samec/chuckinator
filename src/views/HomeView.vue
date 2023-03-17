@@ -32,14 +32,13 @@ import SearchBar from "../components/molecules/SearchBar.vue";
 import JokeCard from "../components/atoms/JokeCard.vue";
 
 export default {
+  name: "HomeView",
   components: {
     SearchBar,
     JokeCard,
   },
   computed: {
-    joke() {
-      return this.$store.state.joke;
-    },
+    ...mapState(["joke"]),
   },
   mounted() {
     this.$store.dispatch("fetchJoke");
